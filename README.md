@@ -1,5 +1,5 @@
 # diploma-thesis
-👮 Feel free to learn and use.
+👮 **Feel free** to learn and use.
 
 
 📃 Supported algorithms:
@@ -17,3 +17,4 @@
 - Runtime (Gives you a clue how size affects runtime)
 - Swap Count
 
+*Made with QT Library, paid for commerce.
