@@ -1,5 +1,5 @@
 # diploma-thesis
-Provided a visualization for 9 algorithms in C++
+👮 Feel free to learn and use.
 
 📃 Supported algorithms:
 - Bubble Sort
@@ -16,4 +16,3 @@ Provided a visualization for 9 algorithms in C++
 - Swap Count
 - Runtime
 
-👮 Feel free to learn and use.
