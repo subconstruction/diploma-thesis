@@ -3,21 +3,78 @@
 #include "SortingThread.h"
 
 #include <QThread>
+#include <QProgressBar>
+#include <QLabel>
+#include <QtWidgets>
+#include <QLayout>
 #include <QTimer>
 
-#include <cstdlib>
 #include <ctime>
+#include <math.h>
+#include <chrono>
+#include <cstdlib>
+#include <windows.h>
 
-unsigned const short sleepTime = 100;
+double start;
 
-int values[13];
-int defaultValues[13] = {10, 51, 28, 92, 66, 57, 21, 13, 19, 44, 13, 72, 41};
+int arraySize = 25;
+
+int* values = new int[arraySize];
 
 SortingThread* sortingThread;
 
-void MainWindow::setProgressBarsAndLabelsToValue(const int array[13])
+std::vector<std::pair<QProgressBar*, QLabel*>> MainWindow::createProgressBarsAndLabels(QWidget *parent, int max_int)
 {
-    for (int i = 0; i < 13; ++i) {
+    std::vector<std::pair<QProgressBar*, QLabel*>> progressBarLabelPairs;
+
+    for (int ordinal = 1; ordinal <= max_int; ++ordinal) {
+        QProgressBar* progressBar = new QProgressBar(parent);
+        progressBar->setObjectName(QString("item_bar%1").arg(ordinal));
+
+        QLabel* label = new QLabel(parent);
+        label->setObjectName(QString("item_label%1").arg(ordinal));
+
+        int progressBarX = 160 + ordinal * 30;
+        int progressBarY = 120;
+
+        progressBar->setGeometry(progressBarX, progressBarY, 16, 231);
+        progressBar->setOrientation(Qt::Vertical);
+        progressBar->setStyleSheet("border-color: #74c8ff; border-radius: 4px");
+        progressBar->setTextVisible(0);
+
+        int labelX = progressBarX;
+        int labelY = 360;
+        label->setGeometry(labelX, labelY, 21, 16);
+
+        progressBarLabelPairs.push_back(std::make_pair(progressBar, label));
+    }
+
+    return progressBarLabelPairs;
+}
+
+void MainWindow::deleteProgressBarsAndLabels(int max_int)
+{
+    for (int ordinal = 1; ordinal <= max_int; ++ordinal) {
+        QString progressBarName = QString("item_bar%1").arg(ordinal);
+        QString labelName = QString("item_label%1").arg(ordinal);
+
+        QProgressBar* progressBar = findChild<QProgressBar*>(progressBarName);
+        QLabel* label = findChild<QLabel*>(labelName);
+
+        if (progressBar) {
+            progressBar->deleteLater();
+        }
+
+        if (label) {
+            label->deleteLater();
+        }
+    }
+}
+
+
+void MainWindow::setProgressBarsAndLabelsToValue(const int array[])
+{
+    for (int i = 0; i < arraySize; ++i) {
         QString progressBarName = QString("item_bar%1").arg(i + 1);
         QString labelName = QString("item_label%1").arg(i + 1);
 
@@ -29,266 +86,81 @@ void MainWindow::setProgressBarsAndLabelsToValue(const int array[13])
             label->setText(QString::number(array[i]));
         }
     }
-}
 
-void MainWindow::bubbleSortAndVisualize(int array[], int size)
-{
-    for (int i = 0; i < size - 1; ++i) {
-        for (int j = 0; j < size - i - 1; ++j) {
-            if (array[j] > array[j + 1]) {
-                std::swap(array[j], array[j + 1]);
-
-                setProgressBarsAndLabelsToValue(array);
-                QThread::msleep(sleepTime);
-            }
-        }
-    }
-}
-
-void MainWindow::shakerSortAndVisualize(int array[], int size)
-{
-    int left = 0;
-    int right = size - 1;
-    bool swapped = true;
-
-    while (swapped) {
-        swapped = false;
-
-        for (int i = left; i < right; ++i) {
-            if (array[i] > array[i + 1]) {
-                std::swap(array[i], array[i + 1]);
-                swapped = true;
-
-                setProgressBarsAndLabelsToValue(array);
-                QThread::msleep(sleepTime);
-            }
-        }
-
-        if (!swapped) {
-            break;
-        }
-
-        swapped = false;
-        --right;
-
-        for (int i = right; i > left; --i) {
-            if (array[i] < array[i - 1]) {
-                std::swap(array[i], array[i - 1]);
-                swapped = true;
-
-                setProgressBarsAndLabelsToValue(array);
-                QThread::msleep(sleepTime);
-            }
-        }
-
-        ++left;
-    }
-}
-
-void MainWindow::insertionSortAndVisualize(int array[], int size)
-{
-    for (int i = 1; i < size; ++i) {
-        int key = array[i];
-        int j = i - 1;
-
-        while (j >= 0 && array[j] > key) {
-            array[j + 1] = array[j];
-            --j;
-        }
-        array[j + 1] = key;
-
-        setProgressBarsAndLabelsToValue(array);
-        QThread::msleep(sleepTime);
-    }
-}
-
-void MainWindow::gnomeSortAndVisualize(int array[], int size)
-{
-    int index = 0;
-
-    while (index < size) {
-        if (index == 0) {
-            ++index;
-        }
-
-        if (array[index] >= array[index - 1]) {
-            ++index;
-        } else {
-            std::swap(array[index], array[index - 1]);
-            --index;
-
-            setProgressBarsAndLabelsToValue(array);
-            QThread::msleep(sleepTime);
-        }
-    }
-}
-
-void MainWindow::selectionSortAndVisualize(int array[], int size)
-{
-    for (int i = 0; i < size - 1; ++i) {
-        int minIndex = i;
-
-        for (int j = i + 1; j < size; ++j) {
-            if (array[j] < array[minIndex]) {
-                minIndex = j;
-            }
-        }
-
-        if (minIndex != i) {
-            std::swap(array[i], array[minIndex]);
-
-            setProgressBarsAndLabelsToValue(array);
-            QThread::msleep(sleepTime);
-        }
-    }
-}
-
-void MainWindow::onBubbleSortButtonClicked(const int array[13])
-{
-    int* nonConstArray = const_cast<int*>(array);
-
-    bubbleSortAndVisualize(nonConstArray, 13);
-}
-
-void MainWindow::onShakerSortButtonClicked(const int array[13])
-{
-    int* nonConstArray = const_cast<int*>(array);
-
-    shakerSortAndVisualize(nonConstArray, 13);
-}
-
-void MainWindow::onInsertionSortButtonClicked(const int array[13])
-{
-    int* nonConstArray = const_cast<int*>(array);
-
-    insertionSortAndVisualize(nonConstArray, 13);
+    QString p = "Swap Count: ";
+    int count = sortingThread->swap_operations_count;
+    QString countString = QString::number(count);
+    QString labelText = p + countString;
+    QLabel* label = findChild<QLabel*>("swap_count");
+    label->setText(labelText);
 }
 
 void MainWindow::shuffleValues()
 {
+    sortingThread->quit();
+
+    QLabel* label = findChild<QLabel*>("swap_count");
+    label->setText("Swap Count: 0");
+
     srand(static_cast<unsigned int>(time(nullptr)));
 
-    for (int i = 0; i < 13; ++i) {
+    for (int i = 0; i < arraySize; ++i) {
         values[i] = rand() % 101;
     }
 
     setProgressBarsAndLabelsToValue(values);
 }
 
-void MainWindow::onMergeSortButtonClicked()
-{
+void MainWindow::disableAll() {
+    ui->bubble_sort->setEnabled(false);
+    ui->shaker_sort->setEnabled(false);
+    ui->insertion_sort->setEnabled(false);
+    ui->bub_and_sel_sort->setEnabled(false);
     ui->merge_sort->setEnabled(false);
+    ui->quick_sort->setEnabled(false);
+    ui->gnome_sort->setEnabled(false);
+    ui->heap_sort->setEnabled(false);
+    ui->selection_sort->setEnabled(false);
+}
 
-    sortingThread->setArray(values, 13);
-    sortingThread->start();
+void MainWindow::enableAll() {
+    ui->bubble_sort->setEnabled(true);
+    ui->shaker_sort->setEnabled(true);
+    ui->insertion_sort->setEnabled(true);
+    ui->bub_and_sel_sort->setEnabled(true);
+    ui->merge_sort->setEnabled(true);
+    ui->quick_sort->setEnabled(true);
+    ui->gnome_sort->setEnabled(true);
+    ui->heap_sort->setEnabled(true);
+    ui->selection_sort->setEnabled(true);
 }
 
 void MainWindow::onSortingFinished(int* sortedArray, int size)
 {
+    double end = clock();
+
     std::copy(sortedArray, sortedArray + size, values);
     setProgressBarsAndLabelsToValue(values);
 
-    ui->merge_sort->setEnabled(true);
+    enableAll();
+
+    QString p = "Runtime: ";
+    QString e = " ms";
+
+    QString countString = QString::number(end - sortingThread->swap_operations_count*sortingThread->sleepTime - start);
+    QString labelText = p + countString + e;
+    QLabel* label = findChild<QLabel*>("runtime_label");
+    label->setText(labelText);
 }
 
-void MainWindow::quickSort(int arr[], int low, int high)
+void MainWindow::updateLabel(int val)
 {
-    if (low < high) {
-        int pivot = partition(arr, low, high);
+    const int value = val*10;
 
-        quickSort(arr, low, pivot - 1);
-        quickSort(arr, pivot + 1, high);
-    }
-}
+    QString text = QString("%1ms").arg(value);
+    ui->label->setText(text);
 
-int MainWindow::partition(int arr[], int low, int high)
-{
-    int pivot = arr[high];
-    int i = (low - 1);
-
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] < pivot) {
-            i++;
-            std::swap(arr[i], arr[j]);
-
-            setProgressBarsAndLabelsToValue(arr);
-            QThread::msleep(sleepTime);
-        }
-    }
-    std::swap(arr[i + 1], arr[high]);
-
-    setProgressBarsAndLabelsToValue(arr);
-    QThread::msleep(sleepTime);
-
-    return (i + 1);
-}
-
-void MainWindow::quickSortAndVisualize(int array[], int size)
-{
-    quickSort(array, 0, size - 1);
-}
-
-void MainWindow::onQuickSortButtonClicked()
-{
-    int* nonConstArray = new int[13];
-    std::copy(values, values + 13, nonConstArray);
-
-    quickSortAndVisualize(nonConstArray, 13);
-    delete[] nonConstArray;
-}
-
-void MainWindow::heapify(int array[], int size, int root, int& comparisons, int& swaps)
-{
-    int largest = root;
-    int left = 2 * root + 1;
-    int right = 2 * root + 2;
-
-    if (left < size && array[left] > array[largest]) {
-        largest = left;
-    }
-
-    if (right < size && array[right] > array[largest]) {
-        largest = right;
-    }
-
-    if (largest != root) {
-        std::swap(array[root], array[largest]);
-        swaps++;
-
-        setProgressBarsAndLabelsToValue(array);
-        QThread::msleep(sleepTime);
-
-        heapify(array, size, largest, comparisons, swaps);
-    }
-}
-
-void MainWindow::onHeapSortButtonClicked()
-{
-    int* nonConstArray = new int[13];
-    std::copy(values, values + 13, nonConstArray);
-
-    heapSortAndVisualize(nonConstArray, 13);
-    delete[] nonConstArray;
-}
-
-void MainWindow::heapSortAndVisualize(int array[], int size)
-{
-    int comparisons = 0;
-    int swaps = 0;
-
-    for (int i = size / 2 - 1; i >= 0; i--) {
-        heapify(array, size, i, comparisons, swaps);
-    }
-
-    for (int i = size - 1; i > 0; i--) {
-        std::swap(array[0], array[i]);
-        swaps++;
-
-        setProgressBarsAndLabelsToValue(array);
-        QThread::msleep(sleepTime);
-
-        heapify(array, i, 0, comparisons, swaps);
-    }
+    sortingThread->setSleepTime(value);
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -297,47 +169,157 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    std::vector<std::pair<QProgressBar*, QLabel*>> progressBarsAndLabels = createProgressBarsAndLabels(this, 25);
+
+    for (const auto& pair : progressBarsAndLabels) {
+        pair.first->show();
+        pair.second->show();
+    }
+
     sortingThread = new SortingThread(this);
 
+    connect(ui->speed_slider, SIGNAL(valueChanged(int)), this, SLOT(updateLabel(int)));
     connect(sortingThread, &SortingThread::sortingFinished, this, &MainWindow::onSortingFinished);
-    connect(ui->merge_sort, &QPushButton::clicked, this, &MainWindow::onMergeSortButtonClicked);
-    connect(ui->heap_sort, &QPushButton::clicked, this, &MainWindow::onHeapSortButtonClicked);
+    connect(ui->merge_sort, &QPushButton::clicked, this, [this]() {
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("merge");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
+    });
+    connect(ui->array_update, &QPushButton::clicked, this, [this]() {
+        sortingThread->quit();
+        sortingThread->swap_operations_count = 0;
+
+        const int newSize = ui->array_size_t->value();
+        if (newSize < 1) {
+            MessageBoxA(0, "Minimum Size Is 0", "An Invalid Value Entered", 0);
+            return;
+        }
+
+        disableAll();
+        deleteProgressBarsAndLabels(arraySize);
+
+        arraySize = newSize;
+        std::vector<std::pair<QProgressBar*, QLabel*>> progressBarsAndLabels = createProgressBarsAndLabels(this, arraySize);
+
+        for (const auto& pair : progressBarsAndLabels) {
+            pair.first->show();
+            pair.second->show();
+        }
+
+        shuffleValues();
+        QThread::msleep(200);
+
+        srand(static_cast<unsigned int>(time(nullptr)));
+
+        for (int i = 0; i < newSize; ++i) {
+            values[i] = rand() % 101;
+        }
+
+        setProgressBarsAndLabelsToValue(values);
+
+        enableAll();
+    });
+    connect(ui->heap_sort, &QPushButton::clicked, this, [this]() {
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("heap");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
+    });
 
     connect(ui->bubble_sort, &QPushButton::clicked, this, [this]() {
-        onBubbleSortButtonClicked(values);
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("bubble");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
     });
 
     connect(ui->quick_sort, &QPushButton::clicked, this, [this]() {
-        onQuickSortButtonClicked();
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("quick");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
     });
 
     connect(ui->shaker_sort, &QPushButton::clicked, this, [this]() {
-        onShakerSortButtonClicked(values);
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("shaker");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
     });
 
     connect(ui->insertion_sort, &QPushButton::clicked, this, [this]() {
-        onInsertionSortButtonClicked(values);
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("insertion");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
     });
 
     connect(ui->gnome_sort, &QPushButton::clicked, this, [this]() {
-        gnomeSortAndVisualize(values, 13);
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("gnome");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
     });
 
     connect(ui->selection_sort, &QPushButton::clicked, this, [this]() {
-        selectionSortAndVisualize(values, 13);
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("selection");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
     });
 
     connect(ui->bub_and_sel_sort, &QPushButton::clicked, this, [this]() {
-        selectionSortAndVisualize(values, 13);
+        if (ui->shouldShuffle->checkState()) shuffleValues();
+
+        sortingThread->quit();
+        sortingThread->assignMethod("bub_and_sel");
+
+        sortingThread->setArray(values, arraySize);
+        start = clock();
+        sortingThread->start();
     });
 
     connect(ui->shuffle_values, &QPushButton::clicked, this, &MainWindow::shuffleValues);
 
-    std::copy(std::begin(defaultValues), std::end(defaultValues), std::begin(values));
+    shuffleValues();
 
     setProgressBarsAndLabelsToValue(values);
 
-    setFixedSize(800, 490);
+    setMaximumHeight(490);
+    setMinimumSize(800, 490);
 }
 
 MainWindow::~MainWindow()

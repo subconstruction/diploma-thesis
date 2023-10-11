@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>788</width>
-    <height>485</height>
+    <width>940</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -165,7 +165,7 @@
      <rect>
       <x>10</x>
       <y>420</y>
-      <width>781</width>
+      <width>621</width>
       <height>41</height>
      </rect>
     </property>
@@ -198,488 +198,114 @@ QPushButton:pressed {
     }</string>
     </property>
     <property name="text">
-     <string>Перемешать</string>
+     <string>Shuffle</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QCheckBox" name="shouldShuffle">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>415</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Shuffle on Sort</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="swap_count">
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>40</y>
-      <width>541</width>
-      <height>341</height>
+      <y>30</y>
+      <width>171</width>
+      <height>16</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar1">
-    <property name="enabled">
-     <bool>true</bool>
+    <property name="text">
+     <string>Swap Count: </string>
     </property>
+   </widget>
+   <widget class="QSlider" name="speed_slider">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
+      <x>660</x>
+      <y>440</y>
+      <width>81</width>
+      <height>21</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
+    <property name="maximum">
+     <number>100</number>
     </property>
     <property name="orientation">
-     <enum>Qt::Vertical</enum>
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QProgressBar" name="item_bar2">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
+      <x>750</x>
+      <y>440</y>
+      <width>51</width>
+      <height>20</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="text">
+     <string>0ms</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="item_bar3">
+   <widget class="QLabel" name="runtime_label">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
+      <x>190</x>
+      <y>50</y>
+      <width>161</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="text">
+     <string>Runtime: undefined</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="item_bar4">
+   <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
+      <x>390</x>
+      <y>35</y>
+      <width>61</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="text">
+     <string>Array Size:</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="item_bar5">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar6">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar7">
+   <widget class="QSpinBox" name="array_size_t">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
+      <y>30</y>
+      <width>61</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="maximum">
+     <number>1000</number>
     </property>
    </widget>
-   <widget class="QProgressBar" name="item_bar8">
+   <widget class="QPushButton" name="array_update">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar9">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar10">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar11">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar12">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="item_bar13">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>120</y>
-      <width>16</width>
-      <height>231</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-color: #74c8ff;
-border-radius: 4px;</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label1">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
+      <x>390</x>
+      <y>60</y>
+      <width>121</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label2">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label3">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label4">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label5">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label6">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label7">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label8">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label9">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label10">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label11">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label12">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="item_label13">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>360</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>24</string>
+     <string>Update</string>
     </property>
    </widget>
   </widget>
