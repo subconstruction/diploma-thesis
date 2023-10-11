@@ -14,6 +14,6 @@
 - Heap Sort
 
 🧿 I'm providing algorithms comparing stats such as:
+- Runtime (Gives you a clue how size affects runtime)
 - Swap Count
-- Runtime
 
