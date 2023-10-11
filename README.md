@@ -14,7 +14,7 @@
 - Heap Sort
 
 🧿 I'm providing algorithms comparing stats such as:
-- Runtime (Gives you a clue how size affects runtime)
+- Runtime (Gives you a clue of how size affects run time)
 - Swap Count
 
 [*] Made with QT Library, paid for commerce.
