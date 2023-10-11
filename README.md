@@ -1,6 +1,7 @@
 # diploma-thesis
 👮 Feel free to learn and use.
 
+
 📃 Supported algorithms:
 - Bubble Sort
 - Shaker Sort
