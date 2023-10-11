@@ -11,6 +11,7 @@
 
 #include <ctime>
 #include <math.h>
+#include <iostream>
 #include <chrono>
 #include <cstdlib>
 #include <windows.h>
@@ -204,6 +205,8 @@ MainWindow::MainWindow(QWidget *parent)
         deleteProgressBarsAndLabels(arraySize);
 
         arraySize = newSize;
+        values = new int[arraySize];
+
         std::vector<std::pair<QProgressBar*, QLabel*>> progressBarsAndLabels = createProgressBarsAndLabels(this, arraySize);
 
         for (const auto& pair : progressBarsAndLabels) {
@@ -324,5 +327,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    using std::cout;
+
+    cout << "Init Destructor [1]";
+
     delete ui;
+    delete[] values;
 }
