@@ -11,3 +11,9 @@ Provided a visualization for 9 algorithms in C++
 - Quick Sort
 - Selection Sort
 - Heap Sort
+
+🧿 I'm providing algorithms comparing stats such as:
+- Swap Count
+- Runtime
+
+👮 Feel free to learn and use.
