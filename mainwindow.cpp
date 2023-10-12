@@ -3,11 +3,19 @@
 #include "SortingThread.h"
 
 #include <QThread>
+#include <QMouseEvent>
+#include <QPoint>
 #include <QProgressBar>
 #include <QLabel>
+#include <QWidget>
+#include <QDebug>
+#include <QPushButton>
+#include <QApplication>
 #include <QtWidgets>
 #include <QLayout>
 #include <QTimer>
+#include <QVBoxLayout>
+#include <QMouseEvent>
 
 #include <ctime>
 #include <math.h>
@@ -40,7 +48,7 @@ std::vector<std::pair<QProgressBar*, QLabel*>> MainWindow::createProgressBarsAnd
 
         progressBar->setGeometry(progressBarX, progressBarY, 16, 231);
         progressBar->setOrientation(Qt::Vertical);
-        progressBar->setStyleSheet("border-color: #74c8ff; border-radius: 4px");
+        progressBar->setStyleSheet("background-color: #1f2129; border-color: #74c8ff; border-radius: 4px");
         progressBar->setTextVisible(0);
 
         int labelX = progressBarX;
@@ -169,6 +177,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setMouseTracking(true);
+    resizing = false;
+
+    setWindowFlags(Qt::FramelessWindowHint);
 
     std::vector<std::pair<QProgressBar*, QLabel*>> progressBarsAndLabels = createProgressBarsAndLabels(this, 25);
 
@@ -333,4 +345,5 @@ MainWindow::~MainWindow()
 
     delete ui;
     delete[] values;
+    delete[] sortingThread;
 }
