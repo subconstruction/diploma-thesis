@@ -17,4 +17,4 @@
 - Runtime (Gives you a clue of how size affects run time)
 - Swap Count
 
-[*] Made with QT Library, paid for commerce.
+free* -> Made with QT Library, paid for commerce.
